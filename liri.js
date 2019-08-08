@@ -44,7 +44,7 @@ var movieThis = function() {
             console.log("Title: " + body.Title);
             console.log("Release Year: " + body.Year);
             console.log("IMdB Rating: " + body.imdbRating);
-            console.log("Rotten Tomatoes Rating: " + body.Ratings[2]);
+            console.log("Rotten Tomatoes Rating: " + body.Ratings[2].Value);
             console.log("Country: " + body.Country);
             console.log("Language: " + body.Language);
             console.log("Plot: " + body.Plot);
