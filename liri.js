@@ -8,16 +8,12 @@ var spotify = new Spotify({
 const axios = require('axios');
 var fs = require("fs");
 var moment = require('moment');
-
-
 const colors = require('colors');
-
-
-console.log(keys);
-
 var request = require("request");
 
 fs.appendFileSync("random.txt", "Starting Here");
+
+// console.log(keys.spotify.secret);
 
 
 
@@ -29,9 +25,13 @@ moment().format();
 var userOperator = process.argv[2];
 var userSelector = process.argv[3];
 
+for (var i = 4; i < process.argv.length; i++) {
+    userSelector += '+' + process.argv[i];
+}
+
 
 console.log(colors.red("The Operator is " + process.argv[2]));
-console.log(colors.red("The Selector is " + process.argv[3]));
+console.log(colors.red("The Selector is " + userSelector));
 
 
 
@@ -40,7 +40,7 @@ console.log(colors.red("The Selector is " + process.argv[3]));
 
 var movieThis = function () {
     //Assign the command line input to a variable to be passed to the query 
-    var movieName = process.argv[3];
+    var movieName = userSelector;
     // Build the query url with our new command line variable
     var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&tomatoes=true&apikey=trilogy";
 
@@ -81,7 +81,7 @@ var spotifyThisSong = function (songName) {
     spotify.search(
         {
             type: "track",
-            query: userSelector,
+            query: userSelector
         },
         function (err, data) {
             if (err) {
@@ -91,12 +91,13 @@ var spotifyThisSong = function (songName) {
 
             var songs = data.tracks.items;
 
-            for (var i = 0; i < songs.length; i++) {
+            for (var i = 0; i < 1; i++) {
                 console.log(i);
-                console.log("artist(s): " + songs[i].artists.map(getArtistNames));
-                console.log("song name: " + songs[i].name);
-                console.log("preview song: " + songs[i].preview_url);
-                console.log("album: " + songs[i].album.name);
+                console.log("-----------------------------------");
+                console.log("Artist: " + songs[i].artists[i].name);
+                console.log("Song Name: " + songs[i].name);
+                console.log("Preview: " + songs[i].preview_url);
+                console.log("Album: " + songs[i].album.name);
                 console.log("-----------------------------------");
             }
         }
@@ -122,8 +123,12 @@ var concertThis = function (artistName) {
 var runLiri = function () {
     if (process.argv[2] === "concert-this") {
         concertThis();
+
     };
     if (process.argv[2] === "spotify-this-song") {
+        if (userSelector === undefined){
+            userSelector = "The Sign";
+        }
         spotifyThisSong();
     }
     if (process.argv[2] === "movie-this") {
