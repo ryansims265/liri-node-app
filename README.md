@@ -16,7 +16,7 @@ To run the Liri bot, you first need to install the repo on your machine and run 
 Once those are done, you need to run "node liri" + your operator + your selector (which can be multi-word)
 Once you choose a operator and selector you can run it and get a response with your relevant data printed to the text file
 
-Scrrneshots or video of it working
+Check out this video to see how it works!: https://www.youtube.com/watch?v=cj7WjxdPf-M&feature=youtu.be
 
 I used NPM, JSON, AXIOS, FS, Moment, Colors, Request, For loops, functions, queryURL's, and nested IF statements in my code
 
