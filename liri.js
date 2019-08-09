@@ -1,36 +1,47 @@
 require("dotenv").config();
-
-// var spotify = new Spotify(keys.spotify);
-
 var keys = require("./keys");
-
+var Spotify = require("node-spotify-api");
+var spotify = new Spotify({
+    id: process.env.SPOTIFY_ID,
+    secret: process.env.SPOTIFY_SECRET
+});
 const axios = require('axios');
-
-var Spotify = require('node-spotify-api');
-
 var fs = require("fs");
+var moment = require('moment');
+
+
+const colors = require('colors');
+
+
+console.log(keys);
+
 var request = require("request");
 
+fs.appendFileSync("random.txt", "Starting Here");
 
 
-var moment = require('moment');
+
 moment().format();
+
+// var SPOTIFY_ID = "0fe7fd97619c4e14a9a07efc57353c7f";
+// var SPOTIFY_SECRET = "34939e78c9df41e1a711e9df0535d28c";
 
 var userOperator = process.argv[2];
 var userSelector = process.argv[3];
 
 
-console.log("The Operator is " + process.argv[2]);
-console.log("The Selector is " + process.argv[3]);
+console.log(colors.red("The Operator is " + process.argv[2]));
+console.log(colors.red("The Selector is " + process.argv[3]));
 
 
 
 
 
-var movieThis = function() {
-    //Assign the movie name as the selector from the command line
+
+var movieThis = function () {
+    //Assign the command line input to a variable to be passed to the query 
     var movieName = process.argv[3];
-    // Then run a request to the OMDB API with the movie specified
+    // Build the query url with our new command line variable
     var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&tomatoes=true&apikey=trilogy";
 
     request(queryUrl, function (error, response, body) {
@@ -92,22 +103,40 @@ var spotifyThisSong = function (songName) {
     );
 };
 
-var concertThis = function (artistName){
+var concertThis = function (artistName) {
     var artist = process.argv[3];
+    
     var bandsquery = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
+
+    axios.get(bandsquery)
+  .then(function (response) {
+    console.log(colors.blue("The venue name is " + response.data[1].venue.name));
+    console.log(colors.blue("THe venue location is " + response.data[1].venue.city + ", " + response.data[1].venue.region));
+    console.log(colors.blue("The date of the concert is " + response.data[1].datetime));
+  })
 }
-    
-    
+
+
 
 //This is the conditional logic that chooses what to run based on the userOperator defined in the command line 
-if (process.argv[2] === "concert-this"){
-    concertThis();
+var runLiri = function () {
+    if (process.argv[2] === "concert-this") {
+        concertThis();
+    };
+    if (process.argv[2] === "spotify-this-song") {
+        spotifyThisSong();
+    }
+    if (process.argv[2] === "movie-this") {
+        movieThis();
+    }
+    if (process.argv[2] === "undefined"){
+        console.log("You have to choose a function")
+        console.log("Here are your choices: movie-this, concert-this, or spotify-this-song")
+    }
 };
+runLiri();
 
-if (process.argv[2] === "spotify-this-song"){
-    spotifyThisSong();
-}
 
-if (process.argv[2] === "movie-this"){
-movieThis();
-}
+
+// var term = process.argv.slice[3].join(" ");
+// console.log(term);
