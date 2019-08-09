@@ -44,20 +44,19 @@ var movieThis = function () {
 //We are storing the response data in a variable called showData
             var showData = [
             console.log('================ Movie ================'),
-            console.log("Title: " + body.Title),
+            console.log(colors.green("Title: " + body.Title)),
             console.log("Release Year: " + body.Year),
-            console.log("IMdB Rating: " + body.imdbRating),
+            console.log(colors.green("IMdB Rating: " + body.imdbRating)),
             console.log("Rotten Tomatoes Rating: " + body.Ratings[2].Value),
-            console.log("Country: " + body.Country),
+            console.log(colors.green("Country: " + body.Country)),
             console.log("Language: " + body.Language),
-            console.log("Plot: " + body.Plot),
+            console.log(colors.green("Plot: " + body.Plot)),
             console.log("Actors: " + body.Actors),
             console.log('==================================='),
             ]
 //We are then appending this newly defined object to the text file as an audit long 
             fs.appendFile("random.txt", showData, function(err) {
                 if (err) throw err;
-                console.log(showData);
               });
 //Error handeling 
         } else {
@@ -95,18 +94,18 @@ var spotifyThisSong = function (songName) {
             var showData = [
                 console.log(i),
                 console.log("-----------------------------------"),
-                console.log("Artist: " + songs[i].artists[i].name),
+                console.log(colors.blue("Artist: " + songs[i].artists[0].name)),
                 console.log("Song Name: " + songs[i].name),
                 console.log("Preview: " + songs[i].preview_url),
-                console.log("Album: " + songs[i].album.name),
-                console.log("-----------------------------------")
+                console.log(colors.blue("Album: " + songs[i].album.name)),
+                console.log("-----------------------------------"),
             ]
             //We are then appending this newly defined object to the text file as an audit long 
 
-            fs.appendFile("random.txt", function(err) {
-                if (err) throw err;
-                console.log(showData);
-              });
+            // fs.appendFile("random.txt", function(err) {
+            //     if (err) throw err;
+                
+            //   });
             
         }
     );
